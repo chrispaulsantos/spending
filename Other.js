@@ -23,6 +23,8 @@ var options = {
     animateRotate : true,
     //Boolean - Whether we animate scaling the Doughnut from the centre
     animateScale : false,
+
+    scaleFontFamily: "Lato"
 };
 var colors = ['#51574a','#447c69','#74c493','#8e8c6d','#e4bf80','#e9d78e','#e2975d','#f19670','#e16552',
               '#c94a53','#be5168','#a34974','#993767','#65387d','#4e2472','#9163b6','#e279a3','#e0598b',
@@ -30,6 +32,7 @@ var colors = ['#51574a','#447c69','#74c493','#8e8c6d','#e4bf80','#e9d78e','#e297
 
 $(document).ready(function(){
     $('.ui.dropdown').dropdown();
+    $('.ui.accordion').accordion();
     $.ajax({
         type: 'GET',
         url: 'Store Info.json',
@@ -45,16 +48,17 @@ $(document).ready(function(){
 });
 
 function handleFileSelect(evt) {
-    $('label.ui.icon.button').addClass("loading");
+    $('.dimmer').addClass("active");
     var file = evt.target.files[0];
     Papa.parse(file, {
         header: true,
         dynamicTyping: true,
         complete: function(results) {
             csvData = results["data"];
+            $('#stats').width($(window).width()-1000);
             placeHolder();
-            $('label.ui.icon.button').delay(2000).queue(function() {
-                           $(this).removeClass("loading");
+            $('.dimmer').delay(2000).queue(function() {
+                           $(this).removeClass("active");
                            $(this).dequeue();
                        });
         }
@@ -65,14 +69,15 @@ function placeHolder() {
     var chart = $("#chart-select").val();
     var type = $("#type-select").val();
     var ctx = document.getElementById("myChart").getContext("2d");
-    $('tbody').empty();
+    $('tbody .accordion').empty();
 
     if(myChart != null){
         myChart.destroy();
     }
 
     if(chart == "Pie") {
-        $('#stats').show();
+        $('#stats .statistics').hide();
+        $('#stats table').show();
         pieData = [];
         if(type == "All") {
             getPieData();
@@ -80,14 +85,14 @@ function placeHolder() {
         }
     }
     if(chart == "Bar") {
-        $('#stats').hide();
+        $('#stats table').hide();
         lineData["datasets"][0]["data"] = [];
         getLineData(type);
         myChart = new Chart(ctx).Bar(lineData,options);
     }
 }
 function getLineData(type) {
-    var total = 0, transac = 0;
+    var total = 0, transac = 0, grandTotal = 0;
     //$('#date').append("Date: " + csvData[0]["Date"] + " - " + csvData[csvData.length-2]["Date"] + "<br/>");
     if(type == "All") {
         for(var k = 1; k < 13; k++) {
@@ -102,6 +107,7 @@ function getLineData(type) {
                     }
                 }
             }
+            grandTotal = grandTotal + total;
             lineData["datasets"][0]["data"].push(total.toFixed(2));
         }
     } else if(type != "All") {
@@ -117,22 +123,25 @@ function getLineData(type) {
                     }
                 }
             }
+            grandTotal = grandTotal + total;
             lineData["datasets"][0]["data"].push(total.toFixed(2));
         }
     }
     $('#transac .value').text(transac);
-    $('#transac').show();
+    $('#gtotal .value').text("$" + grandTotal.toFixed(2));
+    $('#date .value').text(csvData[0]["Date"] + " - " + csvData[csvData.length-2]["Date"]);
+    $('#stats .statistics').show();
 }
 
 function getPieData() {
-    var k = 0, total, grandTotal = 0, other = 0;
-    //$('#date').append("Date: " + csvData[0]["Date"] + " - " + csvData[csvData.length-2]["Date"] + "<br/>");
+    var k = 0, total, grandTotal = 0, other = 0, accord = "";
 
     for(var j = 0; j < storeList.length; j++) {
-        total = 0;
+        total = 0, accord = "";
         for(var i = 0; i < csvData.length-1; i++) {
             if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0){
                     total = total + (csvData[i]["Amount"] * -1);
+                    accord  += (csvData[i]["Date"] + ": $" + csvData[i]["Amount"]*-1 + "<br/>");
             }
         }
         if(total < 20) {
@@ -148,7 +157,20 @@ function getPieData() {
         }
         grandTotal = grandTotal + total;
         if(total != 0) {
-            $('#tableBody').append("<tr><td>" + storeList[j]["Name"] + "</td>" + "<td>$" + total.toFixed(2) + "</td><br/>");
+            $('#tableBody .accordion').append(//"<tr>" +
+                                        //"<td>" +
+                                            //"<div class='ui accordion'>" +
+                                                "<div class='title'>" +
+                                                "<i class='dropdown icon'></i>" +
+                                                    storeList[j]["Name"] + ": $" + total.toFixed(2) +
+                                                "</div>" +
+                                                "<div class='content'>" +
+                                                    "<p>" + accord +"</p>" +
+                                                "</div>" //+
+                                            //"</div>" +
+                                        //"</td>" +
+                                    //"</tr>"
+                                );
             if(k == colors.length){ k = 0; }
             k++;
         }
@@ -162,6 +184,7 @@ function getPieData() {
     //$('#stats').prepend("Grand Total: $" + grandTotal.toFixed(2));
     $("#stats").mCustomScrollbar({
         scrollbarPosition: "outside",
-        axis: "y"
+        axis: "y",
+        autoHideScrollbar: true
     });
 }
