@@ -33,6 +33,11 @@ var colors = ['#51574a','#447c69','#74c493','#8e8c6d','#e4bf80','#e9d78e','#e297
 $(document).ready(function(){
     $('.ui.dropdown').dropdown();
     $('.ui.accordion').accordion();
+    $("#stats").mCustomScrollbar({
+        scrollbarPosition: "outside",
+        axis: "y",
+        autoHideScrollbar: true
+    });
     $.ajax({
         type: 'GET',
         url: 'Store Info.json',
@@ -79,21 +84,20 @@ function placeHolder() {
         $('#stats .statistics').hide();
         $('#stats table').show();
         pieData = [];
-        if(type == "All") {
-            getPieData();
-            myChart = new Chart(ctx).Doughnut(pieData,options);
-        }
+        getPieData(type);
+        myChart = new Chart(ctx).Doughnut(pieData,options);
     }
     if(chart == "Bar") {
         $('#stats table').hide();
         lineData["datasets"][0]["data"] = [];
         getLineData(type);
         myChart = new Chart(ctx).Bar(lineData,options);
+
     }
 }
 function getLineData(type) {
     var total = 0, transac = 0, grandTotal = 0;
-    //$('#date').append("Date: " + csvData[0]["Date"] + " - " + csvData[csvData.length-2]["Date"] + "<br/>");
+
     if(type == "All") {
         for(var k = 1; k < 13; k++) {
             total = 0;
@@ -133,20 +137,58 @@ function getLineData(type) {
     $('#stats .statistics').show();
 }
 
-function getPieData() {
+function getPieData(type) {
     var k = 0, total, grandTotal = 0, other = 0, accord = "";
 
-    for(var j = 0; j < storeList.length; j++) {
-        total = 0, accord = "";
-        for(var i = 0; i < csvData.length-1; i++) {
-            if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0){
-                    total = total + (csvData[i]["Amount"] * -1);
-                    accord  += (csvData[i]["Date"] + ": $" + csvData[i]["Amount"]*-1 + "<br/>");
+    if(type == "All"){
+        for(var j = 0; j < storeList.length; j++) {
+            total = 0, accord = "";
+            for(var i = 0; i < csvData.length-1; i++) {
+                if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0){
+                        total = total + (csvData[i]["Amount"] * -1);
+                        accord  += (csvData[i]["Date"] + ": $" + csvData[i]["Amount"]*-1 + "<br/>");
+                }
+            }
+            if(total <= 20) {
+                other = other + total;
+            } else {
+                var color = colors[k];
+                pieData.push({
+                    value: total.toFixed(2),
+                    color: color,
+                    highlight: color,
+                    label: storeList[j]["Name"]
+                });
+            }
+            grandTotal = grandTotal + total;
+            if(total != 0) {
+                $('#tableBody .accordion').append("<div class='title'>" +
+                                                  "<i class='dropdown icon'></i>" +
+                                                      storeList[j]["Name"] + ": $" + total.toFixed(2) +
+                                                  "</div>" +
+                                                  "<div class='content'>" +
+                                                      "<p>" + accord +"</p>" +
+                                                  "</div>");
+                if(k == colors.length){ k = 0; }
+                k++;
             }
         }
-        if(total < 20) {
-            other = other + total;
-        } else {
+        pieData.push({
+            value: other.toFixed(2),
+            color: '#999999',
+            highlight: '#999999',
+            label: 'Other'
+        });
+    } else if(type != "All"){
+        for(var j = 0; j < storeList.length; j++) {
+            total = 0, accord = "";
+            for(var i = 0; i < csvData.length-1; i++) {
+                if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0 && storeList[j]["Type"] == type){
+                        total = total + (csvData[i]["Amount"] * -1);
+                        accord  += (csvData[i]["Date"] + ": $" + csvData[i]["Amount"]*-1 + "<br/>");
+                }
+            }
+
             var color = colors[k];
             pieData.push({
                 value: total.toFixed(2),
@@ -154,37 +196,19 @@ function getPieData() {
                 highlight: color,
                 label: storeList[j]["Name"]
             });
-        }
-        grandTotal = grandTotal + total;
-        if(total != 0) {
-            $('#tableBody .accordion').append(//"<tr>" +
-                                        //"<td>" +
-                                            //"<div class='ui accordion'>" +
-                                                "<div class='title'>" +
-                                                "<i class='dropdown icon'></i>" +
-                                                    storeList[j]["Name"] + ": $" + total.toFixed(2) +
-                                                "</div>" +
-                                                "<div class='content'>" +
-                                                    "<p>" + accord +"</p>" +
-                                                "</div>" //+
-                                            //"</div>" +
-                                        //"</td>" +
-                                    //"</tr>"
-                                );
-            if(k == colors.length){ k = 0; }
-            k++;
+
+            grandTotal = grandTotal + total;
+            if(total != 0) {
+                $('#tableBody .accordion').append("<div class='title'>" +
+                                                  "<i class='dropdown icon'></i>" +
+                                                      storeList[j]["Name"] + ": $" + total.toFixed(2) +
+                                                  "</div>" +
+                                                  "<div class='content'>" +
+                                                      "<p>" + accord +"</p>" +
+                                                  "</div>");
+                if(k == colors.length){ k = 0; }
+                k++;
+            }
         }
     }
-    pieData.push({
-        value: other.toFixed(2),
-        color: '#999999',
-        highlight: '#999999',
-        label: 'Other'
-    });
-    //$('#stats').prepend("Grand Total: $" + grandTotal.toFixed(2));
-    $("#stats").mCustomScrollbar({
-        scrollbarPosition: "outside",
-        axis: "y",
-        autoHideScrollbar: true
-    });
 }
