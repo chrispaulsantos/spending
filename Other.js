@@ -189,13 +189,15 @@ function getPieData(type) {
             if(total <= 20) {
                 other = other + total;
             } else {
-                var color = colors[k];
-                pieData.push({
-                    value: total.toFixed(2),
-                    color: color,
-                    highlight: color,
-                    label: storeList[j]["Name"]
-                });
+                if(total != 0){
+                    var color = colors[k];
+                    pieData.push({
+                        value: total.toFixed(2),
+                        color: color,
+                        highlight: color,
+                        label: storeList[j]["Name"]
+                    });
+                }
             }
             grandTotal = grandTotal + total;
             if(total != 0) {
@@ -226,13 +228,15 @@ function getPieData(type) {
                 }
             }
 
-            var color = colors[k];
-            pieData.push({
-                value: total.toFixed(2),
-                color: color,
-                highlight: color,
-                label: storeList[j]["Name"]
-            });
+            if(total != 0){
+                var color = colors[k];
+                pieData.push({
+                    value: total.toFixed(2),
+                    color: color,
+                    highlight: color,
+                    label: storeList[j]["Name"]
+                });
+            }
 
             grandTotal = grandTotal + total;
             if(total != 0) {
