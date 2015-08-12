@@ -1,0 +1,212 @@
+[
+    {
+        "Name": "Amazon",
+        "Code": "amzn",
+        "Type": "General"
+    },
+    {
+        "Name": "Radioshack",
+        "Code":"radioshack",
+        "Type": "Tech"
+    },
+    {
+        "Name": "Moes Southwest Grill",
+        "Code":"moes",
+        "Type": "Food"
+    },
+    {
+        "Name": "Micro Center",
+        "Code":"micro center",
+        "Type": "Tech"
+    },
+    {
+        "Name": "MBTA",
+        "Code":"mbcr",
+        "Type": "Transportation"
+    },
+    {
+        "Name": "Newegg",
+        "Code":"newegg",
+        "Type": "Tech"
+    },
+    {
+        "Name": " Gulf",
+        "Code":"gulf",
+        "Type": "Gas"
+    },
+    {
+        "Name": "Exxon Mobil",
+        "Code":"exxon",
+        "Type": "Gas"
+    },
+    {
+        "Name": "Modsticker",
+        "Code":"modsticker",
+        "Type": "Tech"
+    },
+    {
+        "Name": "Subway",
+        "Code":"subway",
+        "Type": "Food"
+    },
+    {
+        "Name": "Fidelity WTC",
+        "Code":"wtc",
+        "Type": "Food"
+    },
+    {
+        "Name": "Jerry Remy's",
+        "Code":"jerry remy",
+        "Type": "Food"
+    },
+    {
+        "Name":"iFixIt",
+        "Code":"ifixit",
+        "Type": "Tech"
+    },
+    {
+        "Name": "Army Barracks",
+        "Code":"army barracks",
+        "Type": "General"
+    },
+    {
+        "Name": "Kittery Trading Post",
+        "Code":"kittery trading",
+        "Type": "General"
+    },
+    {
+        "Name": "Circle K",
+        "Code":"circle k",
+        "Type": "Gas"
+    },
+    {
+        "Name": "Shell",
+        "Code":"shell",
+        "Type": "Gas"
+    },
+    {
+        "Name": "Dunkin Donuts",
+        "Code":"dunkin",
+        "Type": "Food"
+    },
+    {
+        "Name": "Spotify",
+        "Code":"spotify",
+        "Type": "Music"
+    },
+    {
+        "Name": "Popo's Hot Dogs & Ice Cream",
+        "Code":"popo's",
+        "Type": "Food"
+    },
+    {
+        "Name": "LAZ Parking",
+        "Code":"laz parking",
+        "Type": "Transportation"
+    },
+    {
+        "Name": "Barnes & Noble",
+        "Code":"barnes",
+        "Type": "Books"
+    },
+    {
+        "Name": "Harrison's Comics",
+        "Code":"harrison",
+        "Type": "Comics & Games"
+    },
+    {
+        "Name": "Acorns Investing",
+        "Code":"acorns",
+        "Type": "General"
+    },
+    {
+        "Name": "Extra",
+        "Code":"extra gas",
+        "Type": "Gas"
+    },
+    {
+        "Name": "J Pace & Sons",
+        "Code":"j pace",
+        "Type": "Food"
+    },
+    {
+        "Name": "Cinema Salem",
+        "Code":"cinema salem",
+        "Type": "Movies"
+    },
+    {
+        "Name": "AMC Theaters",
+        "Code":"amc garden state",
+        "Type": "Movies"
+    },
+    {
+        "Name": "Wal-Mart",
+        "Code":"wal-mart",
+        "Type": "General"
+    },
+    {
+        "Name": "Governor's",
+        "Code":"governor's restaur",
+        "Type": "Food"
+    },
+    {
+        "Name": "Nintendo",
+        "Code":"nintendo",
+        "Type": "Comics and Games"
+    },
+    {
+        "Name": "Sarku Japan",
+        "Code":"sarku",
+        "Type": "Food"
+    },
+    {
+        "Name": "VistaPrint",
+        "Code":"vistaprint",
+        "Type": "General"
+    },
+    {
+        "Name": "McDonald's",
+        "Code":"mcdonald's",
+        "Type": "Food"
+    },
+    {
+        "Name": "Panera Bread",
+        "Code":"panera bread",
+        "Type": "Food"
+    },
+    {
+        "Name": "University of Maine Tuition",
+        "Code":"u of maine sys des",
+        "Type": "Tuition"
+    },
+    {
+        "Name": "Bull Moose",
+        "Code":"bull moose",
+        "Type": "Music"
+    },
+    {
+        "Name": "Dos Amigos",
+        "Code":"dos amigos",
+        "Type": "Food"
+    },
+    {
+        "Name": "Kilwins",
+        "Code":"kilwins",
+        "Type": "Food"
+    },
+    {
+        "Name": "Mainframe Customs",
+        "Code":"mainframecu",
+        "Type": "Tech"
+    },
+    {
+        "Name": "Bandcamp",
+        "Code":"bandcamp",
+        "Type": "Music"
+    },
+    {
+        "Name": "Redbox",
+        "Code":"redbox",
+        "Type": "Movies"
+    }
+]
