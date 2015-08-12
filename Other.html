@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="Other.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.0.9/jquery.mCustomScrollbar.min.css" type="text/css">
         <script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
         <script src='papaparse.min.js'></script>
@@ -10,120 +11,99 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.0.9/jquery.mCustomScrollbar.min.js'></script>
         <script src="Other.js"></script>
     </head>
-    <style media="screen">
-        body {
-
-            background: #87e0fd; /* Old browsers */
-            background: -moz-linear-gradient(-45deg,  #87e0fd 0%, #53cbf1 40%, #05abe0 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#87e0fd), color-stop(40%,#53cbf1), color-stop(100%,#05abe0));
-            background: -webkit-linear-gradient(-45deg,  #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(-45deg,  #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(-45deg,  #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* IE10+ */
-            background: linear-gradient(135deg,  #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 );
-        }
-        #chart-holder {
-            position: relative;
-            top: 125px;
-        }
-        canvas {
-            position: relative;
-        }
-        #menu {
-            position: relative;
-            width: 510px;
-            left: 50%;
-            margin-left: -255px;
-            top: 10px;
-        }
-        #menu div {
-            float: left;
-        }
-        #stats table {
-            width: 350px;
-            position: relative;
-        }
-        #stats {
-            overflow: hidden;
-            position: relative;
-            width: 350px;
-            height: 800px;
-            display: none;
-            top: -700px;
-            left: 60px;
-        }
-    </style>
     <body>
-        <div id='menu'>
-            <div tabindex="0" class="ui dropdown selection">
-                <select id='chart-select'>
-                    <option value="">Select Graph</option>
-                    <option value="Pie">Pie</option>
-                    <option value="Bar">Bar</option>
-                </select>
-                <i class="dropdown icon"></i>
-                <div class="default text">Select Graph</div>
-                <div tabindex="-1" class="menu">
-                    <div class="item" data-value="Pie">Pie</div>
-                    <div class="item" data-value="Bar">Bar</div>
+        <div class="ui" id='load'>
+          <div class="ui page dimmer">
+            <div class="ui text loader">Reading CSV</div>
+          </div>
+          <p></p>
+        </div>
+        <div id='menu-wrapper'>
+            <div id='menu'>
+                <div tabindex="0" class="ui dropdown selection">
+                    <select id='chart-select'>
+                        <option value="">Select Graph</option>
+                        <option value="Pie">Pie</option>
+                        <option value="Bar">Bar</option>
+                    </select>
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Graph</div>
+                    <div tabindex="-1" class="menu">
+                        <div class="item" data-value="Pie">Pie</div>
+                        <div class="item" data-value="Bar">Bar</div>
+                    </div>
                 </div>
-            </div>
-            <div tabindex="1" class="ui dropdown selection">
-                <select id='type-select'>
-                    <option value="">Select Type</option>
-                    <option value="All">All</option>
-                    <option value="Food">Food</option>
-                    <option value="Gas">Gas</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Tech">Tech</option>
-                    <option value="Books">Books</option>
-                    <option value="Music">Music</option>
-                    <option value="Movies">Movies</option>
-                    <option value="Tuition">Tuition</option>
-                </select>
-                <i class="dropdown icon"></i>
-                <div class="default text">Select Type</div>
-                <div tabindex="-1" class="menu">
-                    <div class="item" data-value="All">All</div>
-                    <div class="item" data-value="Food">Food</div>
-                    <div class="item" data-value="Gas">Gas</div>
-                    <div class="item" data-value="Transportation">Transportation</div>
-                    <div class="item" data-value="Tech">Tech</div>
-                    <div class="item" data-value="Books">Books</div>
-                    <div class="item" data-value="Music">Music</div>
-                    <div class="item" data-value="Movies">Movies</div>
-                    <div class="item" data-value="Tuition">Tuition</div>
+                <div tabindex="1" class="ui dropdown selection">
+                    <select id='type-select'>
+                        <option value="">Select Type</option>
+                        <option value="All">All</option>
+                        <option value="Food">Food</option>
+                        <option value="Gas">Gas</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Books">Books</option>
+                        <option value="Music">Music</option>
+                        <option value="Movies">Movies</option>
+                        <option value="Tuition">Tuition</option>
+                    </select>
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Type</div>
+                    <div tabindex="-1" class="menu">
+                        <div class="item" data-value="All">All</div>
+                        <div class="item" data-value="Food">Food</div>
+                        <div class="item" data-value="Gas">Gas</div>
+                        <div class="item" data-value="Transportation">Transportation</div>
+                        <div class="item" data-value="Tech">Tech</div>
+                        <div class="item" data-value="Books">Books</div>
+                        <div class="item" data-value="Music">Music</div>
+                        <div class="item" data-value="Movies">Movies</div>
+                        <div class="item" data-value="Tuition">Tuition</div>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <label for="file" class="ui icon button" style="margin-top: 1px;">
-                    <i class="file icon"></i>
-                    Select CSV</label>
-                <input type="file" id="file" style="display:none">
+                <div>
+                    <label for="file" class="ui icon button" style="margin-top: 1px;">
+                        <i class="file icon"></i>
+                        Select CSV</label>
+                    <input type="file" id="file" style="display:none">
+                </div>
             </div>
         </div>
-        <div id='date'></div>
-        <div id='chart-holder'>
-            <canvas id="myChart" width="1400" height="750"></canvas>
+        <div id='chart-wrapper'>
+            <div id='chart-holder'>
+                <canvas id="myChart" width="1000" height="600"></canvas>
+            </div>
         </div>
         <div id='stats'>
-            <table class="ui celled rail table">
-                <thead id='date'></thead>
+            <table class="ui celled table">
                 <thead>
                     <tr>
-                        <th>Store</th>
-                        <th>Spent</th>
+                        <th>Info</th>
                     </tr>
                 </thead>
-                <tbody id='tableBody'></tbody>
+                <tbody id='tableBody'><tr><td><div class='ui accordion'></div></td></tr></tbody>
             </table>
-        </div>
-        <br/>
-        <div class="ui statistic" id='transac' style="display: none;left: 60px;position: relative;">
-            <div class="value">
-            </div>
-            <div class="label">
-                Transactions
+            <div class='ui statistics'>
+                <div class="statistic" id='date'>
+                    <div class="value" style='font-size: 2rem;'>
+                    </div>
+                    <div class="label">
+                        Date
+                    </div>
+                </div>
+                <div class="statistic" id='transac'>
+                    <div class="value">
+                    </div>
+                    <div class="label">
+                        Transactions
+                    </div>
+                </div>
+                <div class="statistic" id='gtotal'>
+                    <div class="value">
+                    </div>
+                    <div class="label">
+                        Total Spent
+                    </div>
+                </div>
             </div>
         </div>
     </body>
