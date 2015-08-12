@@ -1,0 +1,50 @@
+* {
+    font-family: Arial;
+}
+body {
+
+    background: #87e0fd; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  #87e0fd 0%, #53cbf1 40%, #05abe0 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#87e0fd), color-stop(40%,#53cbf1), color-stop(100%,#05abe0));
+    background: -webkit-linear-gradient(-45deg,  #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(-45deg,  #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(-45deg,  #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* IE10+ */
+    background: linear-gradient(135deg,  #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 );
+}
+#chart-holder {
+    position: relative;
+    width: 1000px;
+    float: left;
+}
+#menu-wrapper {
+    height: 60px;
+}
+canvas {
+    position: relative;
+}
+#menu {
+    position: relative;
+    width: 510px;
+    height: 40px;
+    left: 50%;
+    margin-left: -255px;
+    top: 10px;
+}
+#menu div {
+    float: left;
+}
+#stats table {
+    position: relative;
+    display: none;
+}
+#stats {
+    overflow: hidden;
+    position: relative;
+    width: 350px;
+    height: 400px;
+    float: right;
+}
+#stats .statistics {
+    display: none;
+}
