@@ -87,7 +87,7 @@ function placeHolder() {
     }
 }
 function getLineData(type) {
-    var total = 0;
+    var total = 0, transac = 0;
     //$('#date').append("Date: " + csvData[0]["Date"] + " - " + csvData[csvData.length-2]["Date"] + "<br/>");
     if(type == "All") {
         for(var k = 1; k < 13; k++) {
@@ -97,6 +97,7 @@ function getLineData(type) {
                     if(csvData[i]["Date"].indexOf(k.toString()) == csvData[i]["Date"].indexOf('/')-1) {
                         if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0){
                                 total = total + (csvData[i]["Amount"] * -1);
+                                transac++;
                         }
                     }
                 }
@@ -111,6 +112,7 @@ function getLineData(type) {
                     if(csvData[i]["Date"].indexOf(k.toString()) == csvData[i]["Date"].indexOf('/')-1) {
                         if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0 && storeList[j]["Type"] == type){
                                 total = total + (csvData[i]["Amount"] * -1);
+                                transac++;
                         }
                     }
                 }
@@ -118,6 +120,8 @@ function getLineData(type) {
             lineData["datasets"][0]["data"].push(total.toFixed(2));
         }
     }
+    $('#transac .value').text(transac);
+    $('#transac').show();
 }
 
 function getPieData() {
