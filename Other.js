@@ -112,6 +112,7 @@ function getLineData(type) {
             total = 0;
             for(var j = 0; j < storeList.length; j++) {
                 for(var i = 0; i < csvData.length-1; i++) {
+                    var dateObj = getDate(csvData[i]["Date"]);
                     if(csvData[i]["Date"].indexOf(k.toString()) == csvData[i]["Date"].indexOf('/')-1) {
                         if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0){
                                 total = total + (csvData[i]["Amount"] * -1);
@@ -153,6 +154,7 @@ function getPieData(type) {
         for(var j = 0; j < storeList.length; j++) {
             total = 0, accord = "";
             for(var i = 0; i < csvData.length-1; i++) {
+                var dateObj = getDate(csvData[i]["Date"]);
                 if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0){
                         total = total + (csvData[i]["Amount"] * -1);
                         accord  += (csvData[i]["Date"] + ": $" + csvData[i]["Amount"]*-1 + "<br/>");
@@ -242,3 +244,26 @@ var inactivityTime = function () {
         // 1000 milisec = 1 sec
     }
 };
+function getDate(dateStr) {
+    var dateObj = {month: "", year: ""};
+
+    var mth = dateStr.substring(0,dateStr.indexOf('/'));
+    var yr = dateStr.substring(dateStr.length-2, dateStr.length);
+    mth = parseInt(mth);
+    yr = parseInt(yr);
+
+    if(mth == 1){mth = "January";}
+    if(mth == 2){mth = "February";}
+    if(mth == 3){mth = "March";}
+    if(mth == 4){mth = "April";}
+    if(mth == 5){mth = "May";}
+    if(mth == 6){mth = "June";}
+    if(mth == 7){mth = "July";}
+    if(mth == 8){mth = "August";}
+    if(mth == 9){mth = "September";}
+    if(mth == 10){mth = "October";}
+    if(mth == 11){mth = "November";}
+    if(mth == 12){mth = "December";}
+
+    return dateObj = {month: mth, year: yr};
+}
