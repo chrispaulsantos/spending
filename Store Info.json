@@ -208,5 +208,30 @@
         "Name": "Redbox",
         "Code":"redbox",
         "Type": "Movies"
+    },
+    {
+        "Name": "Boston Hot Dog",
+        "Code":"boston hot dog",
+        "Type": "Food"
+    },
+    {
+        "Name": "Withdrawal",
+        "Code":"withdrwl",
+        "Type": "Withdrawal"
+    },
+    {
+        "Name": "Transfers",
+        "Code":"transfer",
+        "Type": "Transfer"
+    },
+    {
+        "Name": "Boston Burger Company",
+        "Code":"boston burger compa",
+        "Type": "Food"
+    },
+    {
+        "Name": "Dairy Queen",
+        "Code":"dairy queen",
+        "Type": "Food"
     }
 ]
