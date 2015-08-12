@@ -31,6 +31,7 @@ var colors = ['#51574a','#447c69','#74c493','#8e8c6d','#e4bf80','#e9d78e','#e297
               '#7c9fb0','#5698c4','#9abf88'];
 
 $(document).ready(function(){
+    inactivityTime();
     $('#welcome.dimmer').dimmer({duration: {show : 500, hide : 500}});
     $('#welcome.dimmer').dimmer("show");
     $('.ui.dropdown').dropdown();
@@ -39,30 +40,6 @@ $(document).ready(function(){
         scrollbarPosition: "outside",
         axis: "y",
         autoHideScrollbar: true
-    });
-    $('.ui.form')
-        .form({
-        fields: {
-            username: {
-                identifier  : 'username',
-                rules: [
-                {
-                    type   : 'empty',
-                    prompt : 'Please enter your username'
-                }
-                ]
-            },
-            password: {
-                identifier : 'password',
-                rules: [
-                {
-                    type   : 'empty',
-                    prompt : 'Please enter a password'
-                }
-                ]
-            },
-        },
-        inline: true
     });
     $.ajax({
         type: 'GET',
@@ -98,11 +75,6 @@ function handleFileSelect(evt) {
                        });
         }
     });
-}
-function check(form) {
-    if(form.username.value == "Chris" && form.password.value == "Jedaii2017") {
-        window.location.href = "Other.html";
-    }
 }
 function contentRemove($selector) {
     $($selector).empty();
@@ -253,3 +225,20 @@ function getPieData(type) {
         }
     }
 }
+var inactivityTime = function () {
+    var t;
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+
+    function logout() {
+        window.history.back();
+        // window.location.href = 'login.html';
+    }
+
+    function resetTimer() {
+        clearTimeout(t);
+        t = setTimeout(logout, 300000)
+        // 1000 milisec = 1 sec
+    }
+};
