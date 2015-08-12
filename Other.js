@@ -23,7 +23,7 @@ var options = {
     animateRotate : true,
     //Boolean - Whether we animate scaling the Doughnut from the centre
     animateScale : false,
-
+    scaleFontColor: "#FFF",
     scaleFontFamily: "Lato"
 };
 var colors = ['#51574a','#447c69','#74c493','#8e8c6d','#e4bf80','#e9d78e','#e2975d','#f19670','#e16552',
@@ -31,12 +31,38 @@ var colors = ['#51574a','#447c69','#74c493','#8e8c6d','#e4bf80','#e9d78e','#e297
               '#7c9fb0','#5698c4','#9abf88'];
 
 $(document).ready(function(){
+    $('#welcome.dimmer').dimmer({duration: {show : 500, hide : 500}});
+    $('#welcome.dimmer').dimmer("show");
     $('.ui.dropdown').dropdown();
     $('.ui.accordion').accordion();
     $("#stats").mCustomScrollbar({
         scrollbarPosition: "outside",
         axis: "y",
         autoHideScrollbar: true
+    });
+    $('.ui.form')
+        .form({
+        fields: {
+            username: {
+                identifier  : 'username',
+                rules: [
+                {
+                    type   : 'empty',
+                    prompt : 'Please enter your username'
+                }
+                ]
+            },
+            password: {
+                identifier : 'password',
+                rules: [
+                {
+                    type   : 'empty',
+                    prompt : 'Please enter a password'
+                }
+                ]
+            },
+        },
+        inline: true
     });
     $.ajax({
         type: 'GET',
@@ -48,12 +74,16 @@ $(document).ready(function(){
             });
         }
     }).done(function() {
+        $('#welcome.dimmer').delay(2000).queue(function() {
+                       $(this).dimmer("hide");
+                       $(this).dequeue();
+                   });
         $("#file").change(handleFileSelect);
     });
 });
 
 function handleFileSelect(evt) {
-    $('.dimmer').addClass("active");
+    $('#load .dimmer').addClass("active");
     var file = evt.target.files[0];
     Papa.parse(file, {
         header: true,
@@ -62,14 +92,21 @@ function handleFileSelect(evt) {
             csvData = results["data"];
             $('#stats').width($(window).width()-1000);
             placeHolder();
-            $('.dimmer').delay(2000).queue(function() {
+            $('#load .dimmer').delay(2000).queue(function() {
                            $(this).removeClass("active");
                            $(this).dequeue();
                        });
         }
     });
 }
-
+function check(form) {
+    if(form.username.value == "Chris" && form.password.value == "Jedaii2017") {
+        window.location.href = "Other.html";
+    }
+}
+function contentRemove($selector) {
+    $($selector).empty();
+}
 function placeHolder() {
     var chart = $("#chart-select").val();
     var type = $("#type-select").val();
