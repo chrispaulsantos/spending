@@ -15,7 +15,6 @@ var lineData = {
 };
 
 var options = {
-    animation: false,
     animationSteps : 100,
     animationEasing : "easeOutBounce",
     animateRotate : true,
@@ -40,8 +39,9 @@ $(document).ready(function(){
     });
     $.ajax({
         type: 'GET',
-        url: 'Store Info.json',
+        url: 'storeInfo.json',
         dataType: 'json',
+        //crossDomain: true,
         success: function(stores){
             $.each(stores, function(i, store) {
                 storeList[i] = store;
@@ -103,6 +103,7 @@ function placeHolder() {
 }
 function getLineData(type) {
     var total = 0, transac = 0, grandTotal = 0, dates = [], deposit = 0, count = 0;
+    var x = lineData["datasets"][0]["data"];
     setLabels();
 
     for(var i = 0; i < csvData.length; i ++) {
@@ -125,7 +126,7 @@ function getLineData(type) {
                 }
             }
             grandTotal = grandTotal + total;
-            lineData["datasets"][0]["data"].push(total.toFixed(2));
+            x.push(total.toFixed(2));
         }
     } else if(type != "All") {
         for(var k = 0; k < 12; k++) {
@@ -143,7 +144,7 @@ function getLineData(type) {
                 }
             }
             grandTotal = grandTotal + total;
-            lineData["datasets"][0]["data"].push(total.toFixed(2));
+            x.push(total.toFixed(2));
         }
     }
     for(var i = 0; i < csvData.length; i ++) {
@@ -152,7 +153,7 @@ function getLineData(type) {
         }
     }
     $('#transac .value').text(transac);
-    $('#deposit .value').text("$" + deposit);
+    $('#deposit .value').text("$" + deposit.toFixed(2));
     $('#gtotal .value').text("$" + grandTotal.toFixed(2));
     $('#date .value').text(csvData[0]["Date"] + " - " + csvData[csvData.length-2]["Date"]);
     $('#stats .statistics').show();
