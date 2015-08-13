@@ -233,5 +233,30 @@
         "Name": "Dairy Queen",
         "Code":"dairy queen",
         "Type": "Food"
+    },
+    {
+        "Name": "Gamestop",
+        "Code":"gamestop",
+        "Type": "Comics and Games"
+    },
+    {
+        "Name": "Payless",
+        "Code":"payless",
+        "Type": "Clothing"
+    },
+    {
+        "Name": "Deposit",
+        "Code":"deposit",
+        "Type": "Banking"
+    },
+    {
+        "Name": "Deposit",
+        "Code":"des",
+        "Type": "Banking"
+    },
+    {
+        "Name": "Counter Credit",
+        "Code":"counter credit",
+        "Type": "Banking"
     }
 ]
