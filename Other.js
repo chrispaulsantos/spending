@@ -3,7 +3,7 @@ var myChart = null;
 var storeList = [];
 var pieData = [];
 var lineData = {
-    labels: ["January","February","March","April","May", "June", "July","August","September","October","November","December"],
+    labels: [],
     datasets: [
         {
             label: "Gas",
@@ -106,13 +106,15 @@ function placeHolder() {
 }
 function getLineData(type) {
     var total = 0, transac = 0, grandTotal = 0;
+    lineData["labels"] = [];
+    labels();
 
     if(type == "All") {
         for(var k = 1; k < 13; k++) {
             total = 0;
             for(var j = 0; j < storeList.length; j++) {
                 for(var i = 0; i < csvData.length-1; i++) {
-                    var dateObj = getDate(csvData[i]["Date"]);
+                    //var dateObj = getDate(csvData[i]["Date"]);
                     if(csvData[i]["Date"].indexOf(k.toString()) == csvData[i]["Date"].indexOf('/')-1) {
                         if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0){
                                 total = total + (csvData[i]["Amount"] * -1);
@@ -121,6 +123,7 @@ function getLineData(type) {
                     }
                 }
             }
+            //lineData["labels"].push(dateObj.month);
             grandTotal = grandTotal + total;
             lineData["datasets"][0]["data"].push(total.toFixed(2));
         }
@@ -266,4 +269,31 @@ function getDate(dateStr) {
     if(mth == 12){mth = "December";}
 
     return dateObj = {month: mth, year: yr};
+}
+function labels() {
+    var months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    var startMth = csvData[0]["Date"];
+    startMth = startMth.substring(0,startMth.indexOf('/'));
+    startMth = parseInt(startMth)-1;
+
+    for(var i = startMth; i < 12; i++) {
+        //if(i == 11) {
+            if(lineData["labels"].length != 12){
+                if(i == 11) {
+                    i = -1;
+                }
+            }else {
+                i = 12;
+            }
+        //}
+        if(i != 12) {
+            if(i == -1){
+                i = 0;
+                lineData["labels"].push(months[i]);
+                i = -1;
+            }else {
+                lineData["labels"].push(months[i]);
+            }
+        }
+    }
 }
