@@ -6,7 +6,7 @@ var lineData = {
     labels: [],
     datasets: [
         {
-            label: "Gas",
+            label: "Data",
             fillColor: "rgba(0,0,0,0.6)",
             strokeColor: "rgba(0,0,0,.2)",
             data: []
@@ -15,13 +15,10 @@ var lineData = {
 };
 
 var options = {
-    //Number - Amount of animation steps
+    animation: false,
     animationSteps : 100,
-    //String - Animation easing effect
     animationEasing : "easeOutBounce",
-    //Boolean - Whether we animate the rotation of the Doughnut
     animateRotate : true,
-    //Boolean - Whether we animate scaling the Doughnut from the centre
     animateScale : false,
     scaleFontColor: "#FFF",
     scaleFontFamily: "Lato"
@@ -92,47 +89,52 @@ function placeHolder() {
     if(chart == "Pie") {
         $('#stats .statistics').hide();
         $('#stats table').show();
-        pieData = [];
         getPieData(type);
         myChart = new Chart(ctx).Doughnut(pieData,options);
+        pieData = [];
     }
     if(chart == "Bar") {
         $('#stats table').hide();
-        lineData["datasets"][0]["data"] = [];
         getLineData(type);
         myChart = new Chart(ctx).Bar(lineData,options);
-
+        lineData["datasets"][0]["data"] = [];
+        lineData["labels"] = [];
     }
 }
 function getLineData(type) {
-    var total = 0, transac = 0, grandTotal = 0;
-    lineData["labels"] = [];
-    labels();
+    var total = 0, transac = 0, grandTotal = 0, dates = [], deposit = 0, count = 0;
+    setLabels();
+
+    for(var i = 0; i < csvData.length; i ++) {
+        dates[i] = getDate(csvData[i]["Date"]);
+    }
 
     if(type == "All") {
-        for(var k = 1; k < 13; k++) {
+        for(var k = 0; k < 12; k++) {
             total = 0;
             for(var j = 0; j < storeList.length; j++) {
+                var store = storeList[j]["Code"];
                 for(var i = 0; i < csvData.length-1; i++) {
-                    //var dateObj = getDate(csvData[i]["Date"]);
-                    if(csvData[i]["Date"].indexOf(k.toString()) == csvData[i]["Date"].indexOf('/')-1) {
-                        if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0){
+                    var currDateMonth = dates[i]["monthStr"];
+                    if(currDateMonth == lineData["labels"][k]) {
+                        if(csvData[i]["Description"].toLowerCase().indexOf(store) > -1 && csvData[i]["Amount"] < 0) {
                                 total = total + (csvData[i]["Amount"] * -1);
                                 transac++;
                         }
                     }
                 }
             }
-            //lineData["labels"].push(dateObj.month);
             grandTotal = grandTotal + total;
             lineData["datasets"][0]["data"].push(total.toFixed(2));
         }
     } else if(type != "All") {
-        for(var k = 1; k < 13; k++) {
+        for(var k = 0; k < 12; k++) {
             total = 0;
             for(var j = 0; j < storeList.length; j++) {
+                var store = storeList[j]["Code"];
                 for(var i = 0; i < csvData.length-1; i++) {
-                    if(csvData[i]["Date"].indexOf(k.toString()) == csvData[i]["Date"].indexOf('/')-1) {
+                    var currDateMonth = dates[i]["monthStr"];
+                    if(currDateMonth == lineData["labels"][k]) {
                         if(csvData[i]["Description"].toLowerCase().indexOf(storeList[j]["Code"]) > -1 && csvData[i]["Amount"] < 0 && storeList[j]["Type"] == type){
                                 total = total + (csvData[i]["Amount"] * -1);
                                 transac++;
@@ -144,7 +146,13 @@ function getLineData(type) {
             lineData["datasets"][0]["data"].push(total.toFixed(2));
         }
     }
+    for(var i = 0; i < csvData.length; i ++) {
+        if(csvData[i]["Amount"] > 0 && count != 1) {
+            deposit = deposit + csvData[i]["Amount"];
+        }
+    }
     $('#transac .value').text(transac);
+    $('#deposit .value').text("$" + deposit);
     $('#gtotal .value').text("$" + grandTotal.toFixed(2));
     $('#date .value').text(csvData[0]["Date"] + " - " + csvData[csvData.length-2]["Date"]);
     $('#stats .statistics').show();
@@ -248,11 +256,12 @@ var inactivityTime = function () {
     }
 };
 function getDate(dateStr) {
-    var dateObj = {month: "", year: ""};
+    var dateObj = {fullDate: "", monthStr: "", monthNum: "", year: ""};
 
     var mth = dateStr.substring(0,dateStr.indexOf('/'));
     var yr = dateStr.substring(dateStr.length-2, dateStr.length);
     mth = parseInt(mth);
+    var mthNum = mth;
     yr = parseInt(yr);
 
     if(mth == 1){mth = "January";}
@@ -268,27 +277,25 @@ function getDate(dateStr) {
     if(mth == 11){mth = "November";}
     if(mth == 12){mth = "December";}
 
-    return dateObj = {month: mth, year: yr};
+    return dateObj = {fullDate: dateStr, monthStr: mth, monthNum: mthNum, year: yr};
 }
-function labels() {
+function setLabels() {
     var months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     var startMth = csvData[0]["Date"];
     startMth = startMth.substring(0,startMth.indexOf('/'));
     startMth = parseInt(startMth)-1;
 
     for(var i = startMth; i < 12; i++) {
-        //if(i == 11) {
-            if(lineData["labels"].length != 12){
-                if(i == 11) {
-                    i = -1;
-                }
-            }else {
-                i = 12;
+        if(lineData["labels"].length != 12){
+            if(i == 11) {
+                i = -1;
             }
-        //}
+        }else {
+            i = 12;
+        }
         if(i != 12) {
             if(i == -1){
-                i = 0;
+                i = 11;
                 lineData["labels"].push(months[i]);
                 i = -1;
             }else {
