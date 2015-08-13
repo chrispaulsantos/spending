@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
+        <script src='http://momentjs.com/downloads/moment.js'></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var format = "MMMM DD, YYYY hh:ss A";
+
+            $(document).ready(function() {
+                var url = getURL();
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        run(data);
+                    }
+                });
+            });
+
+            function run(data) {
+                for(var i = 0; i < data["items"].length; i++) {
+
+                    //get from/to date
+                    var obj = checkFromToString(data, i);
+
+                    if(data["items"][i].hasOwnProperty("recurrence") != false){
+                        var recurrString = "Till: " + convertRecurrenceString(data["items"][i]["recurrence"][0]);
+                    }else {
+                        var recurrString = "";
+                    }
+
+                    $('body').append(data["items"][i]["summary"] + ": " + obj.from + " to " + obj.to + "<br/>");// + recurrString + "<br/>");
+                }
+            }
+            function convertRecurrenceString(str) {
+                var x = str.substring(str.lastIndexOf('UNTIL=')+6, str.lastIndexOf('T'));
+                x = x.substring(0,4) + "-" + x.substring(4, 6) + "-" + x.substring(6,8);
+                x = moment(x);
+                x = x.format(format);
+                return x;
+            }
+            function checkFromToString(data, i) {
+                var x = data["items"][i]["start"]
+                var y = data["items"][i]["end"];
+                var obj = {from: "", to: ""};
+
+                if(x.hasOwnProperty("date")) {
+                    x = moment(x["date"]);
+                } else {
+                    x = moment(x["dateTime"]);
+                }
+
+                if(y.hasOwnProperty("date")) {
+                    y = moment(y["date"]);
+                } else {
+                    y = moment(y["dateTime"]);
+                }
+                return obj = {from: x.format(format), to: y.format(format)};
+            }
+            function getMonthString(str) {
+                var mth;
+                
+                if(str == 0){mth = "01";}
+                if(str == 1){mth = "02";}
+                if(str == 2){mth = "03";}
+                if(str == 3){mth = "04";}
+                if(str == 4){mth = "05";}
+                if(str == 5){mth = "06";}
+                if(str == 6){mth = "07";}
+                if(str == 7){mth = "08";}
+                if(str == 8){mth = "09";}
+                if(str == 9){mth = "10";}
+                if(str == 10){mth = "11";}
+                if(str == 11){mth = "12";}
+
+                return mth;
+            }
+            function getURL() {
+                var d = new Date();
+                d = d.getUTCFullYear() + "-" + getMonthString(d.getMonth()) + "-" + d.getDate();
+                var url = "https://www.googleapis.com/calendar/v3/calendars/chrissantosproduction%40gmail.com/events?timeMax=2015-12-31T00%3A00%3A00-04%3A00&timeMin=" + d + "T18%3A00%3A00-04%3A00&key=AIzaSyBsVUi9O3Js5biGFG746qYYWhY96wt9AaM";
+                return url;
+            }
+        </script>
+    </body>
+</html>
