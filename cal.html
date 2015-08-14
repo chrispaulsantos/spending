@@ -7,10 +7,30 @@
         <script src='http://momentjs.com/downloads/moment.js'></script>
         <script src="Semantic/semantic.min.js"></script>
     </head>
+    <style media="screen">
+        #day-wrapper {
+            width: 1470px;
+            position: relative;
+            left: 50%;
+            margin-left: -730px;
+            top: 100px;
+        }
+        #day-wrapper .day {
+            width: 290px;
+            float: left;
+            padding-left: 10px;
+        }
+    </style>
     <body>
-        <div class="ui cards"></div>
+        <div id="day-wrapper">
+            <div class='day one'><div class="ui cards"></div></div>
+            <div class='day two'><div class="ui cards"></div></div>
+            <div class='day three'><div class="ui cards"></div></div>
+            <div class='day four'><div class="ui cards"></div></div>
+            <div class='day five'><div class="ui cards"></div></div>
+        </div>
         <script type="text/javascript">
-            var format = "MMMM DD, YYYY hh:ss A";
+            var format = "hh:ss A"; //MMMM DD, YYYY
             var colors = [];
 
             $(document).ready(function() {
@@ -38,6 +58,7 @@
             });
 
             function run(data) {
+                var classes = [".one",".two",".three",".four",".five"];
                 for(var i = 0; i < data["items"].length; i++) {
 
                     //get from/to date
@@ -55,13 +76,24 @@
                         var recurrString = "";
                     }
 
-                    $('.ui.cards').append("<div class='red card' style='background'>" +
-                                              "<div class='content'>" +
-                                                  "<div class='header'>" + desc + ": </div>" +
-                                                  "<div class='meta'>Location: " + location + "</div>" +
-                                                  "<div class='description'>" + obj.from + " to " + obj.to + "</div>" +
-                                              "</div>" +
-                                          "</div>");
+                    for(var j = 0; j < 5; j++){
+
+                        var d = new Date();
+                        d = moment(d);
+                        d = d.add('days', j).format("YYYY-MM-DD");
+                        var hold = obj.YMD;
+                        if(hold == d){
+                            var day = classes[j];
+                            j = 5;
+                        }
+                    }
+                            $(day + ' .ui.cards').append("<div class='card' style='background'>" +
+                                                      "<div class='content'>" +
+                                                          "<div class='header'>" + desc + ": </div>" +
+                                                          "<div class='meta'>Location: " + location + "</div>" +
+                                                          "<div class='description'>" + obj.from + " to " + obj.to + "</div>" +
+                                                      "</div>" +
+                                                  "</div>");
                 }
             }
             function convertRecurrenceString(str) {
@@ -74,7 +106,7 @@
             function checkFromToString(data, i) {
                 var x = data["items"][i]["start"]
                 var y = data["items"][i]["end"];
-                var obj = {from: "", to: ""};
+                var obj = {from: "", to: "", YMD: ""};
 
                 if(x.hasOwnProperty("date")) {
                     x = moment(x["date"]);
@@ -87,7 +119,7 @@
                 } else {
                     y = moment(y["dateTime"]);
                 }
-                return obj = {from: x.format(format), to: y.format(format)};
+                return obj = {from: x.format(format), to: y.format(format), YMD: x.format("YYYY-MM-DD")};
             }
             function getMonthString(str) {
                 var mth;
@@ -118,7 +150,7 @@
                     e = moment(e).add('days', 5).format("YYYY-MM-DD");
 
                     var url = "https://www.googleapis.com/calendar/v3/calendars/chrissantosproduction%40gmail.com/events?" +
-                                   "maxResults=10&"+
+                                   //"maxResults=10&"+
                                    "orderBy=startTime&"+
                                    "singleEvents=true&"+
                                    "timeMax=" + e + "T00%3A00%3A00-04%3A00&"+
