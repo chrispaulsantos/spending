@@ -1,20 +1,21 @@
 body {
-    background-image:radial-gradient(circle at 0 0,#2fae8f,#2f92ae);
+    background-image:radial-gradient(circle at 0 0,#999999,#444444);
 }
 #myChart {
     position: relative;
     left: 50%;
     margin-left: -450px;
+    display: inline;
 }
-input[type="text"]{
-    background: rgba(255,255,255,.3);
-    border: none;
+.ui.statistics {
+    position: relative;
+    width: 1175px;
+    left: 50%;
+    margin-left: -587.5px;
 }
-input:focus{
-    outline: 0;
-}
-input::-webkit-input-placeholder{
-  color: rgb(255, 255, 255);  /* change [placeholder color] by this*/
-  text-shadow: none;
-  -webkit-text-fill-color: initial;
+#inputs {
+    position: relative;
+    width: 612px;
+    left: 50%;
+    margin-left: -306px;
 }
