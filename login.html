@@ -7,11 +7,17 @@
         <script src="Semantic/semantic.min.js"></script>
     </head>
     <style media="screen">
+        .ui.contain {
+            position: relative;
+            top: 50%;
+            margin-top: -134px;
+            height: 268px;
+        }
         #login-box {
             height: 184px;
             position: relative;
             top: 50%;
-            margin-top: -92px;
+            margin-top: -130px;
         }
         .ui.form {
             max-width: 380px;
@@ -25,6 +31,10 @@
         }
     </style>
     <body>
+        <div class='ui contain'>
+            <h1 class='ui icon center aligned header'>
+                <i class='icon inverted rebel'></i>
+            </h1>
             <div id='login-box'>
                 <form class="ui form">
                     <div class="field">
@@ -38,6 +48,7 @@
                     <button class="ui button" onclick="check(this.form)" type="submit">Submit</button>
                 </form>
             </div>
+        </div>
     </body>
     <script type="text/javascript">
     $('.ui.form')
@@ -66,7 +77,7 @@
     });
     function check(form) {
         if(form.username.value == "Chris" && form.password.value == "Jedaii2017") {
-            window.location.href = "Other.html";
+            window.location.href = "home.html";
         }
     }
     </script>
