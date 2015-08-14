@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="Other.css">
         <script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
         <script src='http://momentjs.com/downloads/moment.js'></script>
+        <script src="Semantic/semantic.min.js"></script>
     </head>
     <body>
+        <div class="ui cards"></div>
         <script type="text/javascript">
             var format = "MMMM DD, YYYY hh:ss A";
+            var colors = [];
 
             $(document).ready(function() {
-                var url = getURL();
 
                 $.ajax({
-                    url: url,
+                    url: getURL(1),
                     type: "GET",
                     dataType: "json",
                     success: function(data) {
                         run(data);
+                    }
+                });
+                $.ajax({
+                    url: getURL(2),
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data2) {
+                        for(var i = 0; i <= 10; i++){
+                            colors[i] = data2["event"][(i+1).toString()]["background"];
+                            $('body').append("<div style='width: 100px;height:100px;background: "+ colors[i] + ";'</div>")
+                        }
+                        console.log(colors);
                     }
                 });
             });
@@ -34,7 +50,13 @@
                         var recurrString = "";
                     }
 
-                    $('body').append("<div>" + desc + ": " + obj.from + " to " + obj.to + "</div>");// + recurrString + "<br/>");
+                    $('.ui.cards').append("<div class='card' style='background'>" +
+                                              "<div class='content'>" +
+                                                  "<div class='header'>" + desc + ": </div>" +
+                                                  "<div class='meta'>Location: </div>" +
+                                                  "<div class='description'>" + obj.from + " to " + obj.to + "</div>" +
+                                              "</div>" +
+                                          "</div>");
                 }
             }
             function convertRecurrenceString(str) {
@@ -80,10 +102,27 @@
 
                 return mth;
             }
-            function getURL() {
-                var d = new Date();
-                d = d.getUTCFullYear() + "-" + getMonthString(d.getMonth()) + "-" + d.getDate();
-                var url = "https://www.googleapis.com/calendar/v3/calendars/chrissantosproduction%40gmail.com/events?maxResults=10&orderBy=startTime&singleEvents=true&timeMax=2015-12-31T00%3A00%3A00-04%3A00&timeMin=" + d + "T18%3A00%3A00-04%3A00&key=AIzaSyBsVUi9O3Js5biGFG746qYYWhY96wt9AaM";
+            function getColor(data){
+                //if(data[""]
+            }
+            function getURL(sel) {
+                if(sel == 1) {
+                    var d = new Date();
+                    d = d.getUTCFullYear() + "-" + getMonthString(d.getMonth()) + "-" + d.getDate();
+                    // var url = "https://www.google.com/calendar/feeds/chrissantosproduction%40gmail.com/private-ef13589253dc3392f7a5f6722e73671f/basic";
+
+                    var url = "https://www.googleapis.com/calendar/v3/calendars/chrissantosproduction%40gmail.com/events?" +
+                                   "maxResults=10&"+
+                                   "orderBy=startTime&"+
+                                   "singleEvents=true&"+
+                                   "timeMax=2015-12-31T00%3A00%3A00-04%3A00&"+
+                                   "timeMin=2015-08-13T18%3A00%3A00-04%3A00&"+
+                                   "fields=items(colorId%2Cend%2Clocation%2Cstart%2Csummary)&"+
+                                   "key=AIzaSyBsVUi9O3Js5biGFG746qYYWhY96wt9AaM";
+                }
+                if(sel == 2){
+                    var url = "https://www.googleapis.com/calendar/v3/colors?fields=event&key=AIzaSyBsVUi9O3Js5biGFG746qYYWhY96wt9AaM";
+                }
                 return url;
             }
         </script>
