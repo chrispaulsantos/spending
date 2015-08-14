@@ -258,5 +258,10 @@
         "Name": "Counter Credit",
         "Code":"counter credit",
         "Type": "Banking"
+    },
+    {
+        "Name": "Veritude",
+        "Code":"veritude",
+        "Type": "Income"
     }
 ]
