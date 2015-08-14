@@ -45,13 +45,20 @@ $(document).ready(function(){
     //Get the context of the canvas element we want to select
     var ctx = document.getElementById("myChart").getContext("2d");
     var intid = 0;
+    var flag = 0;
     var myNewChart = new Chart(ctx);
     myNewChart.Line(chartData, optionsAnimation);
 
     $('#run').click(function() {
         var sym = $('#symbol').val();
+
+        if(flag == 1) {
+            flag = 0;
+            intid = clearInt(intid);
+        }
+
         if(sym.length <= 5) {
-            if(sym != ""){
+            if(sym != "" && flag == 0){
                 intid = setInterval(function() {
                         var d = new Date();
                         if(d.getHours() >= 9 && d.getHours() < 20){
@@ -61,15 +68,20 @@ $(document).ready(function(){
                                 getPrice(myNewChart, sym);
                             }
                         }
-                }, 15000);
+                }, 1000);
+                flag = 1;
             }
         }
     });
     $('#stop').click(function() {
-        clearInterval(intid);
-        intid = 0;
+        clearInt(intid);
     });
 });
+
+function clearInt(e) {
+    clearInterval(e);
+    return e = 0;
+}
 
 function getPrice(myNewChart, sym) {
     var optionsNoAnimation = {
@@ -94,25 +106,31 @@ function getPrice(myNewChart, sym) {
             openPrice: data.Open,
             currPrice: data.LastPrice,
             high: data.High,
-            low: data.Low
+            low: data.Low,
+            percent: data.ChangePercent,
+            prev: data.LastPrice + (data.Change*-1)
         };
 
-            if(priceData.currPrice > priceData.openPrice) {
-                $('#price').css("color","rgba(0,255,127,1)");
-                var percent = ((1 - (priceData.openPrice / priceData.currPrice)) * 100).toFixed(3);
-                var sym = "+";
-            } else if(priceData.currPrice < priceData.openPrice) {
-                $('#price').css("color","rgba(255,0,127,1)");
-                var percent = ((1 - (priceData.currPrice / priceData.openPrice)) * 100).toFixed(3);
-                var sym = "-";
-            }else if(priceData.currPrice == priceData.openPrice) {
-                $('#price').css("color","black");
-                var percent = 0;
-                var sym = "";
+            if(priceData.currPrice > priceData.prev) {
+                $('#price .value').css("color","rgba(0,255,127,1)");
+                var arrow = "small angle up";
+            } else if(priceData.currPrice < priceData.prev) {
+                $('#price .value').css("color","rgba(255,0,127,1)");
+                var arrow = "small angle down";
+            }else if(priceData.currPrice == priceData.prev) {
+                $('#price .value').css("color","black");
+                var arrow = "";
             }
             //percent = percent.toFixed(3);
-            $('#price').text(symbol + ": " + priceData.currPrice + "(" + sym + percent + "%)");
-            $('#open').text("Open: " + priceData.openPrice + "  High: " + priceData.high + "  Low: " + priceData.low);
+            $('.ui.statistics').show();
+            $('#price .label').text(symbol)
+            $('#price .value').text(priceData.currPrice.toFixed(2));
+            $('#percentChange .value').empty();
+            $('#percentChange .value').append("<i class='icon " + arrow + "'" + "></i>" + priceData.percent.toFixed(2) + "%");
+            $('#open .value').text(priceData.openPrice);
+            $('#prev .value').text(priceData.prev);
+            $('#high .value').text(priceData.high);
+            $('#low .value').text(priceData.low);
 
             updateData(chartData, priceData);
             myNewChart.Line(chartData, optionsNoAnimation);
@@ -134,12 +152,12 @@ var updateData = function(oldData, priceData){
     if(d.getMinutes() != 0){
         labels.push("");
     } else if((d.getMinutes() == 0) && (oldData["labels"][index-1] != d.getHours())) {
-        labels.push(d.getHours());
+        labels.push(d.getHours() % 12 || 12);
     }
 
-    time.push(d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
+    time.push(d.getHours() % 12 || 12 + ":" + d.getMinutes() + ":" + d.getSeconds());
     dataA.push(priceData.currPrice);
-    dataB.push(priceData.openPrice);
+    dataB.push(priceData.prev);
     dataC.push(priceData.high);
     dataD.push(priceData.low);
 
