@@ -10,17 +10,41 @@
             <link rel="stylesheet" href="Main.css" media="screen" charset="utf-8">
         </head>
         <body>
-            <div class='ui statistics'>
-                <div id='price'></div>
-                <div id='open'>Open: </div>
-            </div>
-            <div style="position:relative; left:37%;">
-                <input id='symbol' type="text"></input>
+            <canvas id="myChart" width="900" height="500"></canvas>
+            <div id='inputs'>
+                <div class="ui left icon input">
+                    <input id='symbol' placeholder="Enter Symbol..." type="text">
+                    <i class="tag icon"></i>
+                </div>
                 <button id='run' class="ui labeled icon button"><i class="play icon"></i>Run</button>
                 <button id='stop' class="ui labeled icon button"><i class="stop icon"></i>Stop</button>
                 <button class="ui labeled icon button" onclick='downloadCSV({ filename: "stock-data.csv" });'><i class='download icon'></i>Download CSV</button>
             </div>
-            <br/>
-            <canvas id="myChart" width="900" height="500"></canvas>
+            <div class='ui statistics' style="display: none;">
+                <div class='statistic' id='price'>
+                    <div class="value"></div>
+                    <div class="label">Symbol</div>
+                </div>
+                <div class='statistic' id='prev'>
+                    <div class="value"></div>
+                    <div class="label">Previous Close</div>
+                </div>
+                <div class='statistic' id='percentChange'>
+                    <div class="value"></div>
+                    <div class="label">Percent Change</div>
+                </div>
+                <div class='statistic' id='open'>
+                    <div class="value"></div>
+                    <div class="label">Open</div>
+                </div>
+                <div class='statistic' id='high'>
+                    <div class="value"></div>
+                    <div class="label">High</div>
+                </div>
+                <div class='statistic' id='low'>
+                    <div class="value"></div>
+                    <div class="label">Low</div>
+                </div>
+            </div>
         </body>
     </html>
