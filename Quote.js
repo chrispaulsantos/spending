@@ -68,7 +68,7 @@ $(document).ready(function(){
                                 getPrice(myNewChart, sym);
                             }
                         }
-                }, 1000);
+                }, 20000);
                 flag = 1;
             }
         }
