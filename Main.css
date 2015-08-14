@@ -1,0 +1,20 @@
+body {
+    background-image:radial-gradient(circle at 0 0,#2fae8f,#2f92ae);
+}
+#myChart {
+    position: relative;
+    left: 50%;
+    margin-left: -450px;
+}
+input[type="text"]{
+    background: rgba(255,255,255,.3);
+    border: none;
+}
+input:focus{
+    outline: 0;
+}
+input::-webkit-input-placeholder{
+  color: rgb(255, 255, 255);  /* change [placeholder color] by this*/
+  text-shadow: none;
+  -webkit-text-fill-color: initial;
+}
