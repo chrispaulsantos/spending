@@ -68,7 +68,7 @@ $(document).ready(function(){
                                 getPrice(myNewChart, sym);
                             }
                         }
-                }, 1000);
+                }, 20000);
                 flag = 1;
             }
         }
@@ -155,7 +155,7 @@ var updateData = function(oldData, priceData){
         labels.push(d.getHours() % 12 || 12);
     }
 
-    time.push(d.getHours() % 12 || 12 + ":" + d.getMinutes() + ":" + d.getSeconds());
+    time.push((d.getHours() % 12 || 12) + ":" + d.getMinutes() + ":" + d.getSeconds());
     dataA.push(priceData.currPrice);
     dataB.push(priceData.prev);
     dataC.push(priceData.high);
