@@ -2,7 +2,7 @@
     /*font-family: Arial;*/
 }
 body {
-    background-image:radial-gradient(circle at 0 0,#2fae8f,#2f92ae);
+    background-image:radial-gradient(circle at 0 0,#999999,#444444);
 }
 #chart-holder {
     position: relative;
