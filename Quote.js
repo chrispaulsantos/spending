@@ -68,7 +68,7 @@ $(document).ready(function(){
                                 getPrice(myNewChart, sym);
                             }
                         }
-                }, 20000);
+                }, 1000);
                 flag = 1;
             }
         }
@@ -151,7 +151,7 @@ var updateData = function(oldData, priceData){
 
     if(d.getMinutes() != 0){
         labels.push("");
-    } else if((d.getMinutes() == 0) && (oldData["labels"][index-1] != (d.getHours()% 12 || 12))) {
+    } else if((d.getMinutes() == 0) && (oldData["labels"][index-1] != (d.getHours() % 12 || 12))) {
         labels.push(d.getHours() % 12 || 12);
     }
 
@@ -192,7 +192,7 @@ function convertArrayOfObjectsToCSV() {
     return data;
 }
 window.downloadCSV = function(args) {
-    var data, filename, link;
+    var data, filename, a;
     var csv = convertArrayOfObjectsToCSV();
     if (csv == null) return;
 
@@ -202,9 +202,11 @@ window.downloadCSV = function(args) {
         csv = 'data:text/csv;charset=utf-8,' + csv;
     }
     data = encodeURI(csv);
-
-    link = document.createElement('a');
-    link.setAttribute('href', data);
-    link.setAttribute('download', filename);
+    a = document.createElement('a');
+    a.href = data;
+    a.download = filename;
+    a.id = 'link';
+    document.getElementById('statistics').appendChild(a);
     link.click();
+    document.getElementById('link').remove();
 }
