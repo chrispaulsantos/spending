@@ -151,7 +151,7 @@ var updateData = function(oldData, priceData){
 
     if(d.getMinutes() != 0){
         labels.push("");
-    } else if((d.getMinutes() == 0) && (oldData["labels"][index-1] != d.getHours())) {
+    } else if((d.getMinutes() == 0) && (oldData["labels"][index-1] != (d.getHours()% 12 || 12))) {
         labels.push(d.getHours() % 12 || 12);
     }
 
