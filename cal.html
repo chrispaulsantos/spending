@@ -9,25 +9,25 @@
     </head>
     <style media="screen">
         #day-wrapper {
-            width: 1470px;
+            width: 1150px;
             position: relative;
             left: 50%;
-            margin-left: -730px;
+            margin-left: -575px;
             top: 100px;
         }
         #day-wrapper .day {
-            width: 290px;
+            width: 230px;
             float: left;
             padding-left: 10px;
         }
     </style>
     <body>
-        <div id="day-wrapper">
-            <div class='day one'><div class="ui cards"></div></div>
-            <div class='day two'><div class="ui cards"></div></div>
-            <div class='day three'><div class="ui cards"></div></div>
-            <div class='day four'><div class="ui cards"></div></div>
-            <div class='day five'><div class="ui cards"></div></div>
+        <div id="day-wrapper" class="ui grid">
+            <div class='day one column'><div class="ui cards"></div></div>
+            <div class='day two column'><div class="ui cards"></div></div>
+            <div class='day three column'><div class="ui cards"></div></div>
+            <div class='day four column'><div class="ui cards"></div></div>
+            <div class='day five column'><div class="ui cards"></div></div>
         </div>
         <script type="text/javascript">
             var format = "hh:ss A"; //MMMM DD, YYYY
@@ -95,6 +95,19 @@
                                                       "</div>" +
                                                   "</div>");
                 }
+                for(var j = 0; j < 5; j++){
+
+                    var d = new Date();
+                    d = moment(d);
+                    d = d.add('days', j).format("MMM Do");
+                    var day = classes[j];
+                    $(day).prepend("<h1 class='ui icon center aligned header'>" +
+                                       "<i class='calendar icon'></i>" +
+                                       "<div class='content'>" +
+                                            d +
+                                       "</div>"+
+                                   "</h1>");
+                    }
             }
             function convertRecurrenceString(str) {
                 var x = str.substring(str.lastIndexOf('UNTIL=')+6, str.lastIndexOf('T'));
