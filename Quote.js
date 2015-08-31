@@ -45,20 +45,20 @@ $(document).ready(function(){
     //Get the context of the canvas element we want to select
     var ctx = document.getElementById("myChart").getContext("2d");
     var intid = 0;
-    var flag = 0;
+    var intChk = 0;
     var myNewChart = new Chart(ctx);
     myNewChart.Line(chartData, optionsAnimation);
 
     $('#run').click(function() {
         var sym = $('#symbol').val();
 
-        if(flag == 1) {
-            flag = 0;
+        if(intChk == 1) {
+            intChk = 0;
             intid = clearInt(intid);
         }
 
         if(sym.length <= 5) {
-            if(sym != "" && flag == 0){
+            if(sym != "" && intChk == 0){
                 intid = setInterval(function() {
                         var d = new Date();
                         if(d.getHours() >= 9 && d.getHours() < 20){
@@ -68,8 +68,8 @@ $(document).ready(function(){
                                 getPrice(myNewChart, sym);
                             }
                         }
-                }, 20000);
-                flag = 1;
+                }, 2000);
+                intChk = 1;
             }
         }
     });
@@ -121,7 +121,7 @@ function getPrice(myNewChart, sym) {
                 $('#price .value').css("color","black");
                 var arrow = "";
             }
-            //percent = percent.toFixed(3);
+
             $('.ui.statistics').show();
             $('#price .label').text(symbol)
             $('#price .value').text(priceData.currPrice.toFixed(2));
